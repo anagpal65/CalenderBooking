@@ -28,6 +28,11 @@ class Program
 
                 var inp = input.Length > 2 ? input[2] : "";
 
+                if (input.Length < 2)
+                {
+                    continue;
+                }
+
                 if (input.Length > 0)
                 {
                     // check if the date input is correct
@@ -225,20 +230,20 @@ class Program
                     available_slots.Add($"9:00 to {bookings[i].DateTime.ToString("HH:mm")}\n");
                 }
             }
-            else if (i == bookings.Count - 1)
+            if (i == bookings.Count - 1)
             {
                 if ((five_pm - bookings[i].DateTime.TimeOfDay).TotalMinutes > 30)
                 {
-                    available_slots.Add($"{bookings[i].DateTime.ToString("HH:mm")} to 17:00\n");
+                    available_slots.Add($"{bookings[i].DateTime.AddMinutes(30).ToString("HH:mm")} to 17:00\n");
                 }
             }
             else
             {
                 // get next time
-                var next = bookings[i+1].DateTime;
+                var next = bookings[i + 1].DateTime;
                 if ((next.TimeOfDay - bookings[i].DateTime.TimeOfDay).TotalMinutes > 30)
                 {
-                    available_slots.Add($"{bookings[i].DateTime.ToString("HH:mm")} to {next.ToString("HH:mm")}\n");
+                    available_slots.Add($"{bookings[i].DateTime.AddMinutes(30).ToString("HH:mm")} to {next.ToString("HH:mm")}\n");
                 }
             }
         }
